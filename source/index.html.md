@@ -1140,3 +1140,224 @@ Lookup the reason why the provided transaction or block hash was rejected (if an
 Parameter | Required | Description
 --------- | ------- | -----------
 number | no | Number of past blocks to include
+
+# Simple Transaction Lookups
+
+Simple plain text & JSON API for querying transaction data.
+
+All bitcoin values are in <a href="http://www.btcsatoshi.com/" target="_blank_">Satoshi</a> i.e. divide by 100,000,000 to get the amount in BTC.
+
+## Total Output
+
+```ruby
+require 'rest_client'
+
+response = RestClient.get 'https://blockchain.info/q/txtotalbtcoutput/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5'
+puts response
+```
+
+```python
+from urllib2 import Request, urlopen
+
+request = Request('https://blockchain.info/q/txtotalbtcoutput/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5')
+
+response_body = urlopen(request).read()
+print response_body
+```
+
+```shell
+curl "https://blockchain.info/q/txtotalbtcoutput/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5"
+```
+
+```javascript
+var request = require('request');
+
+request('https://blockchain.info/q/txtotalbtcoutput/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5', function (error, response, body) {
+  console.log('Status:', response.statusCode);
+  console.log('Headers:', JSON.stringify(response.headers));
+  console.log('Response:', body);
+});
+```
+
+```
+The above command returns a text response:
+```
+
+> 2514787
+
+
+Get the total output value of a transaction in <a href="http://www.btcsatoshi.com/" target="_blank_">satoshi</a>.
+
+
+### HTTP Request
+
+`GET https://blockchain.info/q/txtotalbtcoutput/`<span id="param">transaction</span>
+
+### Query Parameters
+
+Parameter | Required | Description
+--------- | ------- | -----------
+transaction | yes | Transaction hash or ID
+
+## Total Input
+
+```ruby
+require 'rest_client'
+
+response = RestClient.get 'https://blockchain.info/q/txtotalbtcinput/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5'
+puts response
+```
+
+```python
+from urllib2 import Request, urlopen
+
+request = Request('https://blockchain.info/q/txtotalbtcinput/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5')
+
+response_body = urlopen(request).read()
+print response_body
+```
+
+```shell
+curl "https://blockchain.info/q/txtotalbtcinput/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5"
+```
+
+```javascript
+var request = require('request');
+
+request('https://blockchain.info/q/txtotalbtcinput/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5', function (error, response, body) {
+  console.log('Status:', response.statusCode);
+  console.log('Headers:', JSON.stringify(response.headers));
+  console.log('Response:', body);
+});
+```
+
+```
+The above command returns a text response:
+```
+
+> 2514787
+
+
+Get the total input value of a transaction in <a href="http://www.btcsatoshi.com/" target="_blank_">satoshi</a>, including the miner's tip.
+
+
+### HTTP Request
+
+`GET https://blockchain.info/q/txtotalbtcinput/`<span id="param">transaction</span>
+
+### Query Parameters
+
+Parameter | Required | Description
+--------- | ------- | -----------
+transaction | yes | Transaction hash or ID
+
+## Transaction Fee
+
+```ruby
+require 'rest_client'
+
+response = RestClient.get 'https://blockchain.info/q/txfee/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5'
+puts response
+```
+
+```python
+from urllib2 import Request, urlopen
+
+request = Request('https://blockchain.info/q/txfee/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5')
+
+response_body = urlopen(request).read()
+print response_body
+```
+
+```shell
+curl "https://blockchain.info/q/txfee/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5"
+```
+
+```javascript
+var request = require('request');
+
+request('https://blockchain.info/q/txfee/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5', function (error, response, body) {
+  console.log('Status:', response.statusCode);
+  console.log('Headers:', JSON.stringify(response.headers));
+  console.log('Response:', body);
+});
+```
+
+```
+The above command returns a text response:
+```
+
+> 20000
+
+
+Get fee included in a transaction in <a href="http://www.btcsatoshi.com/" target="_blank_">satoshi</a>.
+
+
+### HTTP Request
+
+`GET https://blockchain.info/q/txfee/`<span id="param">transaction</span>
+
+### Query Parameters
+
+Parameter | Required | Description
+--------- | ------- | -----------
+transaction | yes | Transaction hash or ID
+
+## Transaction Result
+
+```ruby
+require 'rest_client'
+
+response = RestClient.get 'https://blockchain.info/q/txresult/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5/1834XF5xscYZGPFhFLXmpq95x7yca69GcY|1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj'
+puts response
+```
+
+```python
+from urllib2 import Request, urlopen
+
+request = Request('https://blockchain.info/q/txresult/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5/1834XF5xscYZGPFhFLXmpq95x7yca69GcY|1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj')
+
+response_body = urlopen(request).read()
+print response_body
+```
+
+```shell
+curl "https://blockchain.info/q/txresult/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5/1834XF5xscYZGPFhFLXmpq95x7yca69GcY|1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj"
+```
+
+```javascript
+var request = require('request');
+
+request('https://blockchain.info/q/txresult/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5/1834XF5xscYZGPFhFLXmpq95x7yca69GcY|1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj', function (error, response, body) {
+  console.log('Status:', response.statusCode);
+  console.log('Headers:', JSON.stringify(response.headers));
+  console.log('Response:', body);
+});
+```
+
+```
+The above command returns a text response:
+```
+
+> 20000
+
+
+Calculate the result of a transaction for a specific address. Querying receiving addresses will respond positive satoshi values, while querying sending addresses will respond with negative <a href="http://www.btcsatoshi.com/" target="_blank_">satoshi</a> values.
+
+Multiple addresses separated by a pipe: |
+
+<aside class="notice">
+If you query multiple addresses, the values will be added together in response.
+</aside>
+
+
+### HTTP Request
+
+`GET https://blockchain.info/q/txresult/`<span id="param">transaction</span>`/`address
+
+### Query Parameters
+
+Parameter | Required | Description
+--------- | ------- | -----------
+transaction | yes | Transaction hash or ID
+address | yes | Bitcoin address
