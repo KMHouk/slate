@@ -4,10 +4,8 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>Blockchain API</title>
 
-    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
-    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
     <style>
       .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
@@ -88,10 +86,12 @@
   color: #90a959;
 }
     </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;]">
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -99,11 +99,12 @@
       </span>
     </a>
     <div class="tocify-wrapper">
-      <img src="images/logo.png" />
+      <img src="images/blockchain-logo-vector.svg" />
         <div class="lang-selector">
               <a href="#" data-language-name="shell">shell</a>
               <a href="#" data-language-name="ruby">ruby</a>
               <a href="#" data-language-name="python">python</a>
+              <a href="#" data-language-name="javascript">javascript</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -112,8 +113,7 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+            <li><a href='https://github.com/blockchain/service-my-wallet-v3' target="_blank">Check out our wallet API module</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -121,217 +121,1213 @@
       <div class="content">
         <h1 id="introduction">Introduction</h1>
 
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<p>The <a href="https://www.blockchain.com/">Blockchain</a> API will allow you to send &amp; receive bitcoin, query JSON data on blocks and transactions, and get information regarding the blockchain. <strong>Almost all functionality and data you see on this website is available through API calls.</strong></p>
 
-<p>We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>Blockchain.info provides official API libraries for <a href="https://github.com/blockchain/api-v1-client-python" target="_blank_"> Python</a>, <a href="https://github.com/blockchain/api-v1-client-java" target="_blank_"> Java</a>, <a href="https://github.com/blockchain/api-v1-client-csharp" target="_blank_"> .NET (C#)</a>, <a href="https://github.com/blockchain/api-v1-client-ruby" target="_blank_"> Ruby</a>, <a href="https://github.com/blockchain/api-v1-client-node" target="_blank_"> Node</a>, and <a href="https://github.com/blockchain/api-v1-client-php" target="_blank_"> PHP</a>.</p>
 
-<p>This example API documentation page was created with <a href="https://github.com/tripit/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&rsquo;s documentation.</p>
+<h1 id="api-keys">API Keys</h1>
 
-<h1 id="authentication">Authentication</h1>
+<p>For a <strong>recieve payments v2 only</strong> key, please apply for a key <a href="https://api.blockchain.info/v2/apikey/request/" target="_blank_">here</a>.</p>
 
-<blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre>
-<pre class="highlight shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre>
-
-<blockquote>
-<p>Make sure to replace <code class="prettyprint">meowmeowmeow</code> with your API key.</p>
-</blockquote>
-
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
-
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
-
-<p><code class="prettyprint">Authorization: meowmeowmeow</code></p>
+<p>For <strong>blockchain wallet services and increased blockchain data limits</strong>, please apply for a key <a href="https://blockchain.info/api/api_create_code" target="_blank_">here</a>.</p>
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You cannot use the keys interchangeably.
 </aside>
 
-<h1 id="kittens">Kittens</h1>
+<h1 id="simple-address-lookups">Simple Address Lookups</h1>
 
-<h2 id="get-all-kittens">Get All Kittens</h2>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<p>Simple plain text API for querying blockchain data, usually one number. For more complex needs, please see our Detailed Bitcoin Data section.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
+<p>All bitcoin values are in <a href="http://www.btcsatoshi.com/" target="_blank_">Satoshi</a> i.e. divide by 100,000,000 to get the amount in BTC.</p>
+
+<h2 id="address-balance">Address Balance</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/addressbalance/1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj?confirmations=3'</span>
+<span class="nb">puts</span> <span class="n">response</span>
 </code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/addressbalance/1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj?confirmations=3'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
 </code></pre>
-<pre class="highlight shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/addressbalance/1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj?confirmations=3"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/addressbalance/1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj?confirmations=3'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
 </code></pre>
 
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>2000000</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
 
-<p>This endpoint retrieves all kittens.</p>
+<p>Get the total number of bitcoins received by an address (in <a href="http://www.btcsatoshi.com/" target="_blank_">satoshi</a>. Multiple addresses separated by a pipe: |</p>
+
+<aside class="warning">Do not use to process payments without the confirmations parameter.</aside>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">GET http://example.com/api/kittens</code></p>
+<p><code class="prettyprint">GET https://blockchain.info/q/addressbalance/</code><span id="param">address</span><code class="prettyprint">?confirmations=</code><span id="param">0</span></p>
 
 <h3 id="query-parameters">Query Parameters</h3>
 
 <table><thead>
 <tr>
 <th>Parameter</th>
-<th>Default</th>
+<th>Required</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
+<td>address</td>
+<td>yes</td>
+<td>Bitcoin address to query for current bitcoin balance.</td>
 </tr>
 <tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
+<td>confirmations</td>
+<td>no</td>
+<td>Number of confirmations required for a transaction to be included in response.</td>
 </tr>
 </tbody></table>
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+<h2 id="total-received">Total Received</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
 
-<h2 id="get-a-specific-kitten">Get a Specific Kitten</h2>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/getreceivedbyaddress/1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj?confirmations=3'</span>
+<span class="nb">puts</span> <span class="n">response</span>
 </code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/getreceivedbyaddress/1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj?confirmations=3'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
 </code></pre>
-<pre class="highlight shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/getreceivedbyaddress/1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj?confirmations=3"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/getreceivedbyaddress/1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj?confirmations=3'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
 </code></pre>
 
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>2000000</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
 
-<p>This endpoint retrieves a specific kitten.</p>
+<p>Get the current balance of an address (in <a href="http://www.btcsatoshi.com/" target="_blank_">satoshi</a>). Multiple addresses separated by a pipe: |</p>
 
-<aside class="warning">Inside HTML code blocks like this one, you can&rsquo;t use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+<aside class="warning">This may be a different value than &lsquo;balance&rsquo;.</aside>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">GET http://example.com/kittens/&lt;ID&gt;</code></p>
+<p><code class="prettyprint">GET https://blockchain.info/q/getreceivedbyaddress/</code><span id="param">address</span><code class="prettyprint">?confirmations=</code><span id="param">0</span></p>
 
-<h3 id="url-parameters">URL Parameters</h3>
+<h3 id="query-parameters">Query Parameters</h3>
 
 <table><thead>
 <tr>
 <th>Parameter</th>
+<th>Required</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>address</td>
+<td>yes</td>
+<td>Bitcoin address to query for current bitcoin balance.</td>
+</tr>
+<tr>
+<td>confirmations</td>
+<td>no</td>
+<td>Number of confirmations required for a transaction to be included in response.</td>
 </tr>
 </tbody></table>
 
-          <h1 id="errors">Errors</h1>
+<h2 id="total-sent">Total Sent</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
 
-<aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files&hellip;just save them to the `includes` folder and add them to the top of your `index.md`&rsquo;s frontmatter. Files are included in the order listed.</aside>
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/getsentbyaddress/1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj?confirmations=3'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
 
-<p>The Kittn API uses the following error codes:</p>
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/getsentbyaddress/1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj?confirmations=3'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/getsentbyaddress/1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj?confirmations=3"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/getsentbyaddress/1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj?confirmations=3'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>2000000</p>
+</blockquote>
+
+<p>Get the total number of bitcoins sent by an address (in <a href="http://www.btcsatoshi.com/" target="_blank_">satoshi</a>. Multiple addresses separated by a pipe: |</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/getsentbyaddress/</code><span id="param">address</span><code class="prettyprint">?confirmations=</code><span id="param">0</span></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
 
 <table><thead>
 <tr>
-<th>Error Code</th>
-<th>Meaning</th>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>400</td>
-<td>Bad Request &ndash; Your request sucks</td>
+<td>address</td>
+<td>yes</td>
+<td>Bitcoin address to query for current bitcoin balance.</td>
 </tr>
 <tr>
-<td>401</td>
-<td>Unauthorized &ndash; Your API key is wrong</td>
+<td>confirmations</td>
+<td>no</td>
+<td>Number of confirmations required for a transaction to be included in response.</td>
+</tr>
+</tbody></table>
+
+<h1 id="simple-real-time-data">Simple Real-Time Data</h1>
+
+<p>Simple plain text API for querying blockchain data, usually one number. For more complex needs, please see Bitcoin Data API.</p>
+
+<p>All bitcoin values are in <a href="http://www.btcsatoshi.com/" target="_blank_">Satoshi</a> i.e. divide by 100,000,000 to get the amount in BTC.</p>
+
+<h2 id="mining-difficulty">Mining Difficulty</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/getdifficulty'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/getdifficulty'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/getdifficulty"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/getdifficulty'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>46684376316.86029</p>
+</blockquote>
+
+<p>Current difficulty target as decimal number</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/getdifficulty</code></p>
+
+<h2 id="block-count">Block Count</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/getblockcount'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/getblockcount'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/getblockcount"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/getblockcount'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>346322</p>
+</blockquote>
+
+<p>Current block height in the longest chain</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/getblockcount</code></p>
+
+<h2 id="latest-hash">Latest Hash</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/latesthash'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/latesthash'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/latesthash"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/latesthash'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>000000000000000003ecdd4d0b36d9f2c718dcae8f202191076b42e994cca5aa</p>
+</blockquote>
+
+<p>Hash of the latest block</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/latesthash</code></p>
+
+<h2 id="bitcoin-per-block">Bitcoin Per Block</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/bcperblock'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/bcperblock'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/bcperblock"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/bcperblock'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>2500000000</p>
+</blockquote>
+
+<p>Current block reward in BTC</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/bcperblock</code></p>
+
+<h2 id="bitcoin-per-block">Bitcoin Per Block</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/totalbc'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/totalbc'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/totalbc"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/totalbc'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>2500000000</p>
+</blockquote>
+
+<p>Total bitcoins in circulation (delayed up to 1 hour)</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/totalbc</code></p>
+
+<h2 id="bitcoin-per-block">Bitcoin Per Block</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/probability'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/probability'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/probability"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/probability'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>4.987335421888922e-21</p>
+</blockquote>
+
+<p>Probability of finding a valid block each hash attempt</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/probability</code></p>
+
+<h2 id="hashes-to-win">Hashes to Win</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/hashestowin'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/hashestowin'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/hashestowin"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/hashestowin'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>9223372036854776000</p>
+</blockquote>
+
+<p>Average number of hash attempts needed to solve a block</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/hashestowin</code></p>
+
+<h2 id="next-re-target">Next Re-Target</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/nextretarget'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/nextretarget'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/nextretarget"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/nextretarget'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>346751</p>
+</blockquote>
+
+<p>Block height of the next difficulty re-target</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/nextretarget</code></p>
+
+<h2 id="average-transaction-size">Average Transaction Size</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/avgtxsize/200'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/avgtxsize/200'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/avgtxsize/200"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/avgtxsize/200'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>530</p>
+</blockquote>
+
+<p>Average transaction size in Bytes. Default is the past 1000 blocks.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/avgtxsize/</code><span id="param">2000</span></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>number</td>
+<td>no</td>
+<td>Number of past blocks to include</td>
+</tr>
+</tbody></table>
+
+<h2 id="average-transaction-value">Average Transaction Value</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/avgtxvalue/200'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/avgtxvalue/200'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/avgtxvalue/200"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/avgtxvalue/200'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>530</p>
+</blockquote>
+
+<p>Average transaction value. Default is the past 1000 transactions.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/avgtxvalue/</code><span id="param">2000</span></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>number</td>
+<td>no</td>
+<td>Number of past transactions to include</td>
+</tr>
+</tbody></table>
+
+<h2 id="average-transaction-number">Average Transaction Number</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/avgtxnumber/200'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/avgtxnumber/200'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/avgtxnumber/200"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/avgtxnumber/200'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>787</p>
+</blockquote>
+
+<p>Average number of transactions per block. Default is past 100 blocks.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/avgtxnumber/</code><span id="param">200</span></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>number</td>
+<td>no</td>
+<td>Number of past blocks to include</td>
+</tr>
+</tbody></table>
+
+<h2 id="block-interval">Block Interval</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/interval'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/interval'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/interval"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/interval'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>691.1999999999999</p>
+</blockquote>
+
+<p>Average time between blocks in seconds</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/interval</code></p>
+
+<h2 id="eta">ETA</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/eta'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/eta'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/eta"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/eta'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>691.1999999999999</p>
+</blockquote>
+
+<p>Average time between blocks in seconds</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/eta</code></p>
+
+<h2 id="unconfirmed-transactions">Unconfirmed Transactions</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/unconfirmedcount'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/unconfirmedcount'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/unconfirmedcount"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/unconfirmedcount'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>3285</p>
+</blockquote>
+
+<p>Number of pending unconfirmed transactions.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/unconfirmedcount</code></p>
+
+<h2 id="market-cap">Market Cap</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/marketcap'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/marketcap'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/marketcap"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/marketcap'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>3797652611.75</p>
+</blockquote>
+
+<p>USD market cap based on 24 hour weighted price.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/marketcap</code></p>
+
+<h2 id="24hr-price">24hr Price</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/24hrprice'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/24hrprice'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/24hrprice"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/24hrprice'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>3797652611.75</p>
+</blockquote>
+
+<p>24 hour weighted price from the largest exchanges.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/24hrprice</code></p>
+
+<h2 id="24hr-transactions">24hr Transactions</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/24hrtransactioncount'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/24hrtransactioncount'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/24hrtransactioncount"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/24hrtransactioncount'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>92895</p>
+</blockquote>
+
+<p>Number of transactions in the past 24 hours.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/24hrtransactioncount</code></p>
+
+<h2 id="24hr-volume">24hr Volume</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/24hrbtcsent'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/24hrbtcsent'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/24hrbtcsent"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/24hrbtcsent'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>92895</p>
+</blockquote>
+
+<p>Number of bitcoin sent in the last 24 hours (in in <a href="http://www.btcsatoshi.com/" target="_blank_">Satoshi</a>)</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/24hrbtcsent</code></p>
+
+<h2 id="hash-rate">Hash Rate</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/hashrate'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/hashrate'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/hashrate"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/hashrate'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>352745325.9987376</p>
+</blockquote>
+
+<p>Estimated network hash rate in Gigahashes per second.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/hashrate</code></p>
+
+<h2 id="rejected">Rejected</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/rejected/200'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/rejected/200'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/rejected/200"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/rejected/200'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>The Maximum number of outputs in a single transaction is 200</p>
+</blockquote>
+
+<p>Lookup the reason why the provided transaction or block hash was rejected (if any). <a href="https://blockchain.info/rejected" target="_blank_">Please see our page here for an example.</a></p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/rejected/</code><span id="param">2000</span></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>number</td>
+<td>no</td>
+<td>Number of past blocks to include</td>
+</tr>
+</tbody></table>
+
+<h1 id="simple-transaction-lookups">Simple Transaction Lookups</h1>
+
+<p>Simple plain text &amp; JSON API for querying transaction data.</p>
+
+<p>All bitcoin values are in <a href="http://www.btcsatoshi.com/" target="_blank_">Satoshi</a> i.e. divide by 100,000,000 to get the amount in BTC.</p>
+
+<h2 id="total-output">Total Output</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/txtotalbtcoutput/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/txtotalbtcoutput/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/txtotalbtcoutput/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/txtotalbtcoutput/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>2514787</p>
+</blockquote>
+
+<p>Get the total output value of a transaction in <a href="http://www.btcsatoshi.com/" target="_blank_">satoshi</a>.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/txtotalbtcoutput/</code><span id="param">transaction</span></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>transaction</td>
+<td>yes</td>
+<td>Transaction hash or ID</td>
+</tr>
+</tbody></table>
+
+<h2 id="total-input">Total Input</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/txtotalbtcinput/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/txtotalbtcinput/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/txtotalbtcinput/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/txtotalbtcinput/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>2514787</p>
+</blockquote>
+
+<p>Get the total input value of a transaction in <a href="http://www.btcsatoshi.com/" target="_blank_">satoshi</a>, including the miner&rsquo;s tip.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/txtotalbtcinput/</code><span id="param">transaction</span></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>transaction</td>
+<td>yes</td>
+<td>Transaction hash or ID</td>
+</tr>
+</tbody></table>
+
+<h2 id="transaction-fee">Transaction Fee</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/txfee/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/txfee/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/txfee/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/txfee/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>20000</p>
+</blockquote>
+
+<p>Get fee included in a transaction in <a href="http://www.btcsatoshi.com/" target="_blank_">satoshi</a>.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/txfee/</code><span id="param">transaction</span></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>transaction</td>
+<td>yes</td>
+<td>Transaction hash or ID</td>
+</tr>
+</tbody></table>
+
+<h2 id="transaction-result">Transaction Result</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rest_client'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://blockchain.info/q/txresult/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5/1834XF5xscYZGPFhFLXmpq95x7yca69GcY|1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj'</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">'https://blockchain.info/q/txresult/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5/1834XF5xscYZGPFhFLXmpq95x7yca69GcY|1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj'</span><span class="p">)</span>
+
+<span class="n">response_body</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response_body</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://blockchain.info/q/txresult/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5/1834XF5xscYZGPFhFLXmpq95x7yca69GcY|1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="s1">'https://blockchain.info/q/txresult/1575059873e0ec2359f6aa6e0e5cbb5baca642117286e4a3bf70d4a37f89daf5/1834XF5xscYZGPFhFLXmpq95x7yca69GcY|1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Status:'</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Headers:'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Response:'</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre class="highlight plaintext"><code>The above command returns a text response:
+</code></pre>
+
+<blockquote>
+<p>20000</p>
+</blockquote>
+
+<p>Calculate the result of a transaction for a specific address. Querying receiving addresses will respond positive satoshi values, while querying sending addresses will respond with negative <a href="http://www.btcsatoshi.com/" target="_blank_">satoshi</a> values.</p>
+
+<p>Multiple addresses separated by a pipe: |</p>
+
+<aside class="notice">
+If you query multiple addresses, the values will be added together in response.
+</aside>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://blockchain.info/q/txresult/</code><span id="param">transaction</span><code class="prettyprint">/</code>address</p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>transaction</td>
+<td>yes</td>
+<td>Transaction hash or ID</td>
 </tr>
 <tr>
-<td>403</td>
-<td>Forbidden &ndash; The kitten requested is hidden for administrators only</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found &ndash; The specified kitten could not be found</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed &ndash; You tried to access a kitten with an invalid method</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable &ndash; You requested a format that isn&rsquo;t json</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone &ndash; The kitten requested has been removed from our servers</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&rsquo;m a teapot</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests &ndash; You&rsquo;re requesting too many kittens! Slow down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error &ndash; We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable &ndash; We&rsquo;re temporarially offline for maintanance. Please try again later.</td>
+<td>address</td>
+<td>yes</td>
+<td>Bitcoin address</td>
 </tr>
 </tbody></table>
 
@@ -341,6 +1337,7 @@ Remember — a happy kitten is an authenticated kitten!
                 <a href="#" data-language-name="shell">shell</a>
                 <a href="#" data-language-name="ruby">ruby</a>
                 <a href="#" data-language-name="python">python</a>
+                <a href="#" data-language-name="javascript">javascript</a>
           </div>
       </div>
     </div>
