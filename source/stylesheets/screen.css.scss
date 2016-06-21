@@ -83,6 +83,8 @@ html, body {
   &>img {
     display: block;
     max-width: 100%;
+    width: 90%;
+    padding: 10px;
   }
 
   &>.search {
@@ -559,6 +561,9 @@ html, body {
       border-top: 1px solid #000;
       border-bottom: 1px solid #404040;
     }
+  }
+  #param {
+    color: red;
   }
 }
 
