@@ -2,10 +2,10 @@
 title: Blockchain API
 
 language_tabs:
-  - shell
-  - ruby
-  - python
-  - javascript
+  - cURL
+  - Ruby
+  - Python
+  - NodeJS
 
 toc_footers:
   - <a href='https://github.com/blockchain/service-my-wallet-v3' target="_blank">Check out our wallet API module</a>
@@ -21,7 +21,7 @@ Blockchain.info provides official API libraries for <a href="https://github.com/
 
 # API Keys
 
-For a **recieve payments v2 only** key, please apply for a key <a href="https://api.blockchain.info/v2/apikey/request/" target="_blank_">here</a>.
+For a **receive payments v2 only** key, please apply for a key <a href="https://api.blockchain.info/v2/apikey/request/" target="_blank_">here</a>.
 
 For **blockchain wallet services and increased blockchain data limits**, please apply for a key <a href="https://blockchain.info/api/api_create_code" target="_blank_">here</a>.
 
@@ -1353,7 +1353,7 @@ If you query multiple addresses, the values will be added together in response.
 
 ### HTTP Request
 
-`GET https://blockchain.info/q/txresult/`<span id="param">transaction</span>`/`address
+`GET https://blockchain.info/q/txresult/`<span id="param">transaction</span>`/`<span id="param">address</span>
 
 ### Query Parameters
 
